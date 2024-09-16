@@ -1,0 +1,30 @@
+.alert {
+  width: min(95vw, 500px);
+  border: .05em solid var(--color-onprimary);
+  border-radius: .2em;
+  padding: .5em;
+}
+
+.sucess {
+  background-color: #00e41328;
+  border-color: #00e413;
+  color: #00e413;
+}
+
+.warning {
+  background-color: #f0e0011f;
+  border-color: #f0e001;
+  color: #f0e001;
+}
+
+.error {
+  background-color: #f0010128;
+  border-color: #f00101;
+  color: #f00101;
+}
+
+.info {
+  background-color: #0190f028;
+  border-color: #0190f0;
+  color: #0190f0;
+}

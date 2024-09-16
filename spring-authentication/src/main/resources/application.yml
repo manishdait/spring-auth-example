@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: spring-authentication
+  
+  config:
+    import: optional:file:.env[.properties]
+  
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: com.mysql.jdbc.Driver
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+
+  jpa:
+    properties:
+      hinernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+    hibernate:
+      ddl-auto: create-drop
+    
+    show-sql: true
+
+  mail:
+    host: ${SMTP_HOST}
+    port: ${SMTP_PORT}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret-key: 815F1298534CA2989B84C1C2F48D4609E7A05811E0700653661466A6
+  expiration-sec: 30
+
+

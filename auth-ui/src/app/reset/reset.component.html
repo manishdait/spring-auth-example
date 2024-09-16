@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="form-container">
+    <h1>Reset Password.</h1>
+    <br>
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="password">New Password</label>
+        <input type="password" placeholder="Password" name="password" id="password" [formControl]="password">
+        @if (password.invalid && (password.touched || submitted)) {
+          <span class="text-danger">The password is required</span>
+        }
+      </div>
+
+      <div class="btn-container">
+        <button type="submit">Submit</button>
+        <button type="button" (click)="resendLink()"  class="button-outline">Resend Link</button>
+      </div>
+    </form>
+  </div>
+</div>

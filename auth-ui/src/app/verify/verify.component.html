@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="form-container">
+    <h1>Activate your Account.</h1>
+    <br>
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="code">Verfication Code</label>
+        <input type="text" placeholder="Verification Code" name="verificationCode" id="code" [formControl]="verificationCode">
+        @if(verificationCode.invalid && (verificationCode.touched || submitted)) {
+          <span class="text-danger">Verification code is required.</span>
+        }
+      </div>
+
+      <div class="btn-container">
+        <button type="submit">Verify</button>
+        <button class="button-outline" (click)="resendToken()">Resend Verification Code</button>
+      </div>
+    </form>
+  </div>
+</div>

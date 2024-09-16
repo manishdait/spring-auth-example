@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="form-container">
+    <h1>Forgot Password.</h1>
+    <br>
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="userId">Username</label>
+        <input type="text" placeholder="Username" name="userId" id="userId" [formControl]="userId">
+        @if (userId.invalid && (userId.touched || submitted)) {
+          <span class="text-danger">The username is required</span>
+        }
+      </div>
+
+      <div class="btn-container">
+        <button type="submit">Submit</button>
+        <button class="button-outline" [routerLink]="'/login'">Back to Login</button>
+      </div>
+    </form>
+  </div>
+</div>
