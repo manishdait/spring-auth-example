@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { UserService } from './service/user.service';
 import { User } from './types/user.types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-private',
@@ -13,7 +14,7 @@ import { User } from './types/user.types';
 export class PrivateComponent implements OnInit {
   user?: User;
   userId?: string
-  constructor (private userService: UserService, private authService: AuthService) {
+  constructor (private userService: UserService, private authService: AuthService, private router: Router) {
     this.userId = authService.getUser();
     authService.getRefreshTokenRecive().subscribe(
       (event) => {
@@ -24,6 +25,14 @@ export class PrivateComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser()
+  }
+
+  logout() {
+    this.authService.logout().subscribe(
+      (res) => {
+        this.router.navigate(['/login']);
+      }
+    );
   }
 
   getUser() {

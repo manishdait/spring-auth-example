@@ -91,6 +91,18 @@ export class AuthService {
     return this.localStorage.retrieve('user');
   }
 
+  logout(): Observable<void> {
+    var tokenId = this.localStorage.retrieve('refreshToken');
+
+    this.localStorage.clear('user');
+    this.localStorage.clear('authToken');
+    this.localStorage.clear('refreshToken');
+    
+    console.log(tokenId);
+    
+    return this.http.put<void>(`${this.url}/logout/${tokenId}`, {});
+  }
+
   isAuthenticated() {
     return this.authToken() != null && this.authToken() != '' && this.localStorage.retrieve('user') != null && this.localStorage.retrieve('user') != '';
   }
