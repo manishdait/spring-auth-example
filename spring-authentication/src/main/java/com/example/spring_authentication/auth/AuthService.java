@@ -239,4 +239,8 @@ public class AuthService {
 
     mailService.send(mail);
   }
+
+  public void logout(String tokenId) {
+    refreshTokenService.delete(tokenId);
+  }
 }

@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -55,6 +56,12 @@ public class AuthController {
   @PatchMapping("/reset/{userId}")
   public ResponseEntity<Void> reset(@PathVariable String userId, @RequestBody ForgotPasswordDto result, @RequestParam(required = true) String tokenId, @RequestParam(defaultValue = "false") boolean update) {
     authService.reset(userId, tokenId, result, update);
+    return ResponseEntity.status(HttpStatus.OK).body(null);
+  }
+
+  @PutMapping("/logout/{tokenId}")
+  public ResponseEntity<Void> logout(@PathVariable String tokenId) {
+    authService.logout(tokenId);
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 }
