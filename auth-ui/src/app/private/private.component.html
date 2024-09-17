@@ -1,1 +1,8 @@
-<p>private works!</p>
+<div class="container">
+  @if(user) {
+    <h1>Welcome to Private page. 🚀</h1>
+    <p><span><strong>Username: </strong></span>{{user.username}}</p>
+    <p><span><strong>Role: </strong></span>{{user.role}}</p>
+    <p><span><strong>Email: </strong></span>{{user.email}}</p>
+  }
+</div>

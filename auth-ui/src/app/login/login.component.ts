@@ -40,8 +40,10 @@ export class LoginComponent {
 
     this.authService.login(request).subscribe(
       (res) => {
+        console.log(res);
+        
         this.authService.storeUser(res);
-        var url = `/private/${res.user}`;
+        var url = `/private`;
         this.router.navigate([url]);
       }, (err) => {
         var alert: AlertInterface = {
