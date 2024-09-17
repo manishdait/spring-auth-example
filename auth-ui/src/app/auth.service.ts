@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthRequest, AuthResponse, ForgotPasswordRequest, SignUpResponse, TokenRequest } from './auth.types';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LocalStorageService } from 'ngx-webstorage';
 
 @Injectable({
@@ -9,8 +9,33 @@ import { LocalStorageService } from 'ngx-webstorage';
 })
 export class AuthService {
   readonly url: string = 'http://localhost:8080/spring-auth-api/v1/auth';
+  private $refreshToken: Subject<boolean> = new Subject<boolean>();
+  private $refreshTokenRecive: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private http:HttpClient, private localStorage: LocalStorageService) {}
+  http:HttpClient;
+  constructor(private backend: HttpBackend, private localStorage: LocalStorageService) {
+    this.http = new HttpClient(backend);
+    
+    this.$refreshToken.subscribe((event) => {
+      this.refreshToken();
+    });
+  }
+
+  setRefreshToken() {
+    this.$refreshToken.next(true);
+  }
+
+  getRefreshToken(): Observable<boolean> {
+    return this.$refreshToken.asObservable()
+  }
+
+  setRefreshTokenRecive() {
+    this.$refreshTokenRecive.next(true);
+  }
+
+  getRefreshTokenRecive(): Observable<boolean> {
+    return this.$refreshTokenRecive.asObservable()
+  }
 
   signup(request: AuthRequest): Observable<SignUpResponse> {
     return this.http.post<SignUpResponse>(`${this.url}/signup`, request);
@@ -50,7 +75,23 @@ export class AuthService {
     return this.localStorage.retrieve('authToken');
   }
 
-  refreshToken(): string {
-    return this.localStorage.retrieve('refreshToken');
+  refreshToken() {
+    var request:TokenRequest = {
+      token: this.localStorage.retrieve('refreshToken')
+    }
+    
+    var userId = this.localStorage.retrieve('user');
+    this.http.post<AuthResponse>(`${this.url}/refresh/${userId}`, request).subscribe((res) => {
+      this.storeUser(res);
+      this.setRefreshTokenRecive();
+    })
+  }
+
+  getUser() {
+    return this.localStorage.retrieve('user');
+  }
+
+  isAuthenticated() {
+    return this.authToken() != null && this.authToken() != '' && this.localStorage.retrieve('user') != null && this.localStorage.retrieve('user') != '';
   }
 }
